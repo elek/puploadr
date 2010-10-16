@@ -39,6 +39,7 @@ class FlickrAPI:
         self.pbar = ProgressBar()
         self.pbar.start()
         res = self.flickr.upload(filename,callback=self.progress,is_public=0)
+        self.pbar.update(100)
         self.pbar.finish()
         return res.findtext("photoid")
         
