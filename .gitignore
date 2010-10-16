@@ -1,0 +1,6 @@
+*.pyc
+dist
+puploadr.egg-info
+nbproject/private
+*~
+build
