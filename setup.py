@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "puploadr",
-    version = "0.1",
+    version = "0.2",
     packages = find_packages(),
     author = 'Elek, Marton',
     description = "Yet another flickr uploader script with resume capabilities",
