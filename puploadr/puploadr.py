@@ -89,6 +89,7 @@ class Controller:
         files = filter(self.fileNameFilter, files)
         if (len(files) == 0):
             return
+	files.sort()
         print "*******PROCESSING DIRECTORY " + root
         setFileName = os.path.join(root, ".flickr.set")
         setNo = self.readSetNo(setFileName)
@@ -106,15 +107,20 @@ class Controller:
             if f in photoMapping:
                 print "photo " + f + " is already uploaded"
             else:
-                no = self.api.uploadFile(os.path.join(root,f))
-                self.storage.storeFileMapping(photosFile, f, no)                
-                if (createSet):
-                    (d,f) = os.path.split(root)
-                    setNo = self.api.createSet(f,no)
-                    self.storage.storeSetNo(setFileName, setNo)
-                    createSet = False
-                else:
-                    self.api.assignToSet(no,setNo)
+                try:
+                   no = self.api.uploadFile(os.path.join(root,f))
+                   self.storage.storeFileMapping(photosFile, f, no)                
+                   if (createSet):
+                      (d,f) = os.path.split(root)
+                      setNo = self.api.createSet(f,no)
+                      self.storage.storeSetNo(setFileName, setNo)
+                      createSet = False
+                   else:
+                      self.api.assignToSet(no,setNo)
+        	except KeyboardInterrupt:
+        	    raise
+                except:
+                   print "Error on uploading file: "+f
 
 def main():
     parser = argparse.ArgumentParser(description='Upload photos to flickr.')
